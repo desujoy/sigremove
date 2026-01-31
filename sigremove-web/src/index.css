@@ -1,11 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
-  --bg-color: #0f172a;
-  --card-bg: #1e293b;
+  --bg-color: #020617;
+  --card-bg: rgba(30, 41, 59, 0.7);
   --primary: #3b82f6;
-  --primary-hover: #2563eb;
+  --primary-hover: #60a5fa;
   --text-main: #f8fafc;
   --text-sub: #94a3b8;
-  --border: #334155;
+  --border: rgba(255, 255, 255, 0.1);
   --success: #10b981;
   --error: #ef4444;
 }
@@ -13,26 +17,29 @@
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: var(--bg-color);
+  background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
   color: var(--text-main);
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  padding: 20px;
 }
 
 .app-container {
   width: 100%;
-  max-width: 480px;
-  padding: 20px;
+  max-width: 440px;
+  position: relative;
 }
 
 .card {
   background: var(--card-bg);
-  border-radius: 24px;
-  padding: 40px 30px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 28px;
+  padding: 40px 32px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   text-align: center;
   border: 1px solid var(--border);
   position: relative;
@@ -79,10 +86,10 @@ p {
   align-items: center;
   justify-content: center;
   border: 2px dashed var(--border);
-  border-radius: 16px;
-  padding: 40px 20px;
+  border-radius: 20px;
+  padding: 50px 20px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 1;
   background: rgba(255, 255, 255, 0.02);
@@ -90,8 +97,9 @@ p {
 
 .dropzone:hover, .dropzone.active {
   border-color: var(--primary);
-  background: rgba(59, 130, 246, 0.05);
-  transform: translateY(-2px);
+  background: rgba(59, 130, 246, 0.08);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2);
 }
 
 .dropzone .icon {
@@ -139,32 +147,41 @@ p {
 }
 
 .primary-btn, button[type="submit"] {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), #1d4ed8);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 700;
   cursor: pointer;
   width: 100%;
-  font-size: 1rem;
-  transition: background 0.2s;
+  font-size: 1.05rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .primary-btn:hover, button[type="submit"]:hover {
-  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, var(--primary-hover), var(--primary));
 }
 
 .secondary-btn {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text-sub);
   border: 1px solid var(--border);
   padding: 12px 24px;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: 600;
   cursor: pointer;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 14px;
+  transition: all 0.2s;
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
 }
 
 .success .icon {

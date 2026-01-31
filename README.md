@@ -23,7 +23,7 @@ This is a monorepo containing:
 ### Running Locally
 1.  **Clone the repo:**
     ```bash
-    git clone https://github.com/your-username/sigremove.git
+    git clone https://github.com/desujoy/sigremove.git
     cd sigremove
     ```
 
@@ -43,10 +43,6 @@ If you modify `sigremove_rs`, you must rebuild the WASM:
 ./build.sh
 ```
 This script automatically detects changes and installs `wasm-pack` if needed.
-
-## Deployment
-This project is optimized for **Cloudflare Pages**.
-See [DEPLOY.md](./DEPLOY.md) for detailed setup instructions.
 
 ## License
 MIT
