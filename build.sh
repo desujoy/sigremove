@@ -24,14 +24,13 @@ else
     COMMIT_TO="${CF_PAGES_COMMIT_SHA:-HEAD}"
     
     if [ -z "$COMMIT_FROM" ]; then
-        echo "ℹ️  No previous commit SHA (First deploy?)."
-        echo "✅ Existing 'pkg' found. Skipping rebuild to avoid Rust requirement."
-        REBUILD_WASM=false
+        echo "ℹ️  No previous commit SHA (First deploy?). Rebuilding to verify environment."
+        REBUILD_WASM=true
     else
         echo "🔍 Checking diff between $COMMIT_FROM and $COMMIT_TO..."
         if ! CHANGES=$(git diff --name-only "$COMMIT_FROM" "$COMMIT_TO" 2>/dev/null); then
-             echo "⚠️  Git diff failed. Assuming valid 'pkg' exists."
-             REBUILD_WASM=false
+             echo "⚠️  Git diff failed. Forcing rebuild."
+             REBUILD_WASM=true
         elif echo "$CHANGES" | grep -v "^sigremove_rs/pkg" | grep -q "^sigremove_rs/"; then
              echo "📦 Rust changes detected:"
              echo "$CHANGES" | grep -v "^sigremove_rs/pkg" | grep "^sigremove_rs/" | head -n 5
@@ -42,7 +41,7 @@ else
     fi
 fi
 
-# 2. Rebuild WASM only if strictly needed
+# 2. Rebuild WASM if needed
 if [ "$REBUILD_WASM" = "true" ]; then
     echo "🛠️  Building WASM module..."
     
