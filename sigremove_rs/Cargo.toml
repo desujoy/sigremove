@@ -1,0 +1,15 @@
+[package]
+name = "sigremove_rs"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+clap = "4.5.56"
+console_error_panic_hook = "0.1.7"
+
+lopdf = { version = "0.39.0", features = ["wasm_js"] }
+rpassword = "7.4.0"
+wasm-bindgen = "0.2.108"

@@ -1,0 +1,18 @@
+# Rust
+target/
+**/*.rs.bk
+
+# Web
+node_modules/
+dist/
+.DS_Store
+.env
+*.log
+
+# WASM - Track pkg for Hybrid CI
+# **/pkg/
+**/pkg-node/
+
+# Test Files
+*.pdf
+!sigremove_rs/assets/*.pdf
