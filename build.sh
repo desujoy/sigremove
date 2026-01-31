@@ -1,13 +1,17 @@
 #!/bin/bash
 set -e
+set -x  # Enable debug logging
 
 echo "🚀 Starting Smart Build (Hybrid CI)..."
 
 # Ensure Bun is available
 if ! command -v bun &> /dev/null; then
-    echo "❌ Bun is not installed. Please enable Bun in Cloudflare Pages settings (Environment Variables: BUN_VERSION=latest)."
+    echo "❌ Bun is not installed."
     exit 1
 fi
+
+# Ensure Cargo/Rust env is loaded
+export PATH="$HOME/.cargo/bin:$PATH"
 
 REBUILD_WASM=false
 
@@ -23,13 +27,11 @@ else
     echo "🔍 Checking diff between $COMMIT_FROM and $COMMIT_TO..."
     
     # Check for changes in sigremove_rs
-    # using '|| true' to prevent exit on git error, capturing output
     if ! CHANGES=$(git diff --name-only "$COMMIT_FROM" "$COMMIT_TO" 2>/dev/null); then
-        echo "⚠️  Git check failed (shallow clone?). Forcing build to be safe."
+        echo "⚠️  Git check failed. Forcing build."
         REBUILD_WASM=true
     elif echo "$CHANGES" | grep -q "^sigremove_rs/"; then
-        echo "📦 Rust changes detected:"
-        echo "$CHANGES" | grep "^sigremove_rs/" | head -n 5
+        echo "📦 Rust changes detected."
         REBUILD_WASM=true
     else
         echo "✅ No Rust changes detected."
@@ -40,10 +42,23 @@ fi
 if [ "$REBUILD_WASM" = "true" ]; then
     echo "🛠️  Building WASM module..."
     
+    if ! command -v cargo &> /dev/null; then
+         echo "❌ Cargo not found. Trying to source cargo env..."
+         if [ -f "$HOME/.cargo/env" ]; then
+            source "$HOME/.cargo/env"
+         fi
+    fi
+
     # Install wasm-pack if missing
     if ! command -v wasm-pack &> /dev/null; then
         echo "⬇️  Installing wasm-pack..."
         curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+    fi
+    
+    # Verify wasm-pack again
+    if ! command -v wasm-pack &> /dev/null; then
+        echo "❌ wasm-pack failed to install or not in PATH ($PATH)."
+        exit 1
     fi
 
     cd sigremove_rs
@@ -59,4 +74,4 @@ cd sigremove-web
 bun install
 bun run build
 
-echo "✨ Build Complete. Output directory: sigremove-web/dist"
+echo "✨ Build Complete."

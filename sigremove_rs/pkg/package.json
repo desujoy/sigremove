@@ -1,0 +1,15 @@
+{
+  "name": "sigremove_rs",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "sigremove_rs_bg.wasm",
+    "sigremove_rs.js",
+    "sigremove_rs.d.ts"
+  ],
+  "main": "sigremove_rs.js",
+  "types": "sigremove_rs.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
