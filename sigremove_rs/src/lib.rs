@@ -1,4 +1,4 @@
-use lopdf::{Document, Object, Reader, Error};
+use lopdf::{Document, Reader, Error};
 use std::collections::BTreeMap;
 use std::str;
 use wasm_bindgen::prelude::*;
@@ -17,7 +17,7 @@ pub fn clean_pdf_wasm(file_data: &[u8], password: Option<String>) -> Result<Vec<
 pub fn process_pdf_bytes(input: &[u8], password: Option<&str>) -> Result<Vec<u8>, Error> {
     // 1. Load PDF with password if provided
     // We use Reader directly to ensure we can pass the password for initial parsing/decryption
-    let mut reader = Reader {
+    let reader = Reader {
         buffer: input,
         document: Document::new(),
         encryption_state: None,
