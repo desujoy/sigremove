@@ -1,10 +1,15 @@
 # SigRemove 🛡️📄
 
-<p align="center">
-  <img src="./signature.png" alt="SigRemove Logo" width="200" />
-</p>
-
 **SigRemove** is a high-performance, privacy-focused PDF cleaner that runs entirely in your browser using WebAssembly (WASM). It removes password protection, digital signatures, and annotations without your data ever leaving your device.
+
+### Remove Visual Noise
+SigRemove effectively strips away digital signature markers and annotations that clutter your documents:
+
+<p align="center">
+  <img src="./signature.png" alt="Example Signature Artifact" width="300" />
+  <br />
+  <em>Example of a signature artifact that SigRemove can strip from your PDFs.</em>
+</p>
 
 ## Features
 -   🔒 **Privacy First**: All processing happens client-side. No server uploads.
