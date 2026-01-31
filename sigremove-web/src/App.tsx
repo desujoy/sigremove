@@ -164,7 +164,17 @@ function App() {
         )}
         
         <footer>
-          <span>Powered by <b>Rust</b> & <b>WebAssembly</b></span>
+          <p>Powered by <b>Rust</b> & <b>WebAssembly</b></p>
+          <div className="footer-links">
+            <a 
+              href="https://github.com/desujoy/sigremove" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="github-link"
+            >
+              ⭐ Star on GitHub
+            </a>
+          </div>
         </footer>
       </motion.div>
     </div>
