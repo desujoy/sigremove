@@ -5,8 +5,16 @@ set -x
 echo "🚀 Starting Smart Build (Hybrid CI)..."
 
 # Ensure Bun is available
+# Ensure Bun is available
 if ! command -v bun &> /dev/null; then
-    echo "❌ Bun is not installed."
+    echo "⬇️  Bun not found. Installing..."
+    curl -fsSL https://bun.sh/install | bash
+    export BUN_INSTALL="$HOME/.bun"
+    export PATH="$BUN_INSTALL/bin:$PATH"
+fi
+
+if ! command -v bun &> /dev/null; then
+    echo "❌ Failed to install Bun."
     exit 1
 fi
 
@@ -72,9 +80,27 @@ else
 fi
 
 # 3. Build Frontend
-echo "🎨 Building Frontend..."
+echo "🎨 Building Frontend (SSG)..."
 cd sigremove-web
 bun install
 bun run build
+
+# Verify SSG Output
+if [ ! -f "dist/client/index.html" ]; then
+    echo "❌ SSG Build failed: dist/client/index.html not found."
+    exit 1
+fi
+
+if ! grep -q "Initializing Core" "dist/client/index.html"; then
+    echo "⚠️  Warning: SSG App Shell not detected in index.html"
+fi
+
+# Cleanup intermediate artifacts
+echo "🧹 Cleaning up intermediate artifacts..."
+rm -rf dist/server
+mv dist/client/* dist/
+rm -rf dist/client
+
+echo "✅ Frontend Build Success (Output: dist)"
 
 echo "✨ Build Complete."

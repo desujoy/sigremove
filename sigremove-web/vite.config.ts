@@ -14,9 +14,16 @@ export default defineConfig({
       allow: ['..']
     }
   },
+  resolve: {
+    alias: {
+      // Mock WASM for SSR
+      ...(process.env.npm_lifecycle_event === 'build:server' ? { 'sigremove_rs': './src/mocks/sigremove_rs.ts' } : {})
+    }
+  },
   build: {
     target: 'esnext',
     minify: 'terser',
+    manifest: true,
     terserOptions: {
       compress: {
         drop_console: true,
