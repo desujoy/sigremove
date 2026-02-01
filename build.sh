@@ -98,7 +98,10 @@ fi
 # Cleanup intermediate artifacts
 echo "🧹 Cleaning up intermediate artifacts..."
 rm -rf dist/server
-mv dist/client/* dist/
+
+# Flatten output (ensure dest doesn't conflict)
+rm -rf dist/assets dist/*.{js,css,html,png,xml,txt,ico,svg,webmanifest,json,wasm}
+cp -r dist/client/* dist/
 rm -rf dist/client
 
 echo "✅ Frontend Build Success (Output: dist)"
